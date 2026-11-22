@@ -8,7 +8,7 @@ For every camera you assign to it, Hello Camera adds one result with the label `
 
 ## What it needs
 
-- Vigiora Server with Docker on the machine that runs the add-on.
+- Vigiora Server on a Linux machine with native Docker (for now, community add-ons install only on Linux servers).
 - Almost no resources: it runs on a Raspberry Pi 4.
 
 ## Permissions
