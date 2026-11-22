@@ -1,8 +1,10 @@
 # Built on the Vigiora server from this repository (run.source: build in vigiora-addon.yaml).
 #
-# Before you submit, pin the base image by digest so the build is repeatable:
-#   docker buildx imagetools inspect python:3.12-slim-bookworm      then use  FROM python:3.12-slim-bookworm@sha256:...
-FROM python:3.12-slim-bookworm
+# The server accepts a Dockerfile only when every FROM is pinned by digest (and there is no "# syntax=" line unless
+# it is pinned too), so the build is repeatable. This is the multi-arch index of python:3.12-slim-bookworm
+# (linux/amd64 and linux/arm64). To refresh it:
+#   docker buildx imagetools inspect python:3.12-slim-bookworm      and copy the "Digest:" line of the index
+FROM python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
 
 # Where the kit comes from while it has no package index entry. Change it if you use your own copy of the
 # vigiora-addon-kit repository (and use a release tag, not a branch) before you build or submit.

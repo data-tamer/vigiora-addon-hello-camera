@@ -1,6 +1,6 @@
 # For trying the add-on on your own machine with Docker. Vigiora Server and the Vigiora cloud do not read this file.
-# It adds by hand what the server adds when it installs the add-on (see README.md, "How the server starts it").
-#   mkdir -p secrets data && chmod 777 data && printf 'your-enrol-key' > secrets/enroll_key
+# It adds by hand what the server adds when it installs the add-on (see the add-on template's README, "How the server starts it").
+#   mkdir -p secrets && printf 'your-enrol-key' > secrets/enroll_key
 #   docker compose -f compose.yaml -f compose.local.yaml up --build
 # Change the address to your server's (a name or an IP the container can reach).
 services:

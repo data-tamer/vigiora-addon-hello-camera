@@ -1,12 +1,16 @@
 # How Vigiora runs this add-on. Vigiora Server and the Vigiora cloud check this file against the manifest, and
 # the rules are an allow-list: a key that is not allowed is refused. In short: no "$" variable anywhere (write
-# real values); a service with "build:" has no "image:"; a folder of this repository is mounted read-only (":ro")
-# unless it is ./data, the add-on's own writable folder; no Docker socket, no host paths such as /etc or /var/run;
-# no privileged mode unless the manifest says run.privileged: true; no network_mode: host unless the manifest says
-# run.network: host. Run  vigiora-addon validate .  to see them all.
+# real values); a service with "build:" has no "image:"; no bind mounts at all (the add-on keeps files in a named
+# volume declared below, and code goes in the image); names are lower case letters, digits and "-"; labels start
+# with "vigiora.addon."; every environment value is written out; no Docker socket; no privileged mode unless the
+# manifest says run.privileged: true; no network_mode: host unless the manifest says run.network: host. The
+# Dockerfile is checked too (every FROM pinned by digest). Run  vigiora-addon validate .  to see them all.
 #
-# What the server adds when it installs this file is described in README.md ("How the server starts it"): the
+# What the server adds when it installs this file is described in the add-on template's README ("How the server starts it"): the
 # server address, the enrolment key file and the service name. They are not written here.
+volumes:
+  addon-state:                    # the add-on's own files. The server creates it for this add-on alone and keeps it
+                                  # across updates; it is removed with the add-on.
 services:
   hello-camera:
     build:
@@ -17,8 +21,7 @@ services:
       HELLO_INTERVAL_SEC: "30"
       LOG_LEVEL: INFO
     volumes:
-      - ./data:/data              # the add-on keeps its token here. The server creates ./data (empty on install,
-                                  # kept on update). It is the only folder of the repository that may be writable.
+      - addon-state:/data         # the add-on keeps its token here
     stop_grace_period: 20s
     logging:
       driver: json-file

@@ -4,4 +4,3 @@ __pycache__/
 .pytest_cache/
 .vigiora-addon-data/
 secrets/
-data/
