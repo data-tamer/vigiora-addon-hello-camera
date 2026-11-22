@@ -1,0 +1,32 @@
+# How Vigiora runs this add-on. The Vigiora cloud checks this file, and checks it against the manifest.
+# The rules, in short: no "$" variable anywhere (write real values), no Docker socket, no host paths such as
+# /etc or /var/run, no privileged mode unless the manifest says run.privileged: true, no network_mode: host
+# unless the manifest says run.network: host. Run  vigiora-addon validate .  to see them all.
+#
+# What the Vigiora server adds when it installs this file is described in README.md ("How the server starts it").
+services:
+  hello-camera:
+    build:
+      context: .                  # run.source is "build": the server builds this folder's Dockerfile
+    restart: unless-stopped
+    environment:
+      # The name the kit reads for the enrolment key file; Vigiora Server 1.7.0 uses the same name for its runners.
+      HAL_ENROLL_KEY_FILE: /run/secrets/enroll_key
+      # The name of this add-on on the server. Use the same value as "id" in vigiora-addon.yaml.
+      VIGIORA_ADDON_SERVICE_NAME: hello-camera
+      HELLO_INTERVAL_SEC: "30"
+      LOG_LEVEL: INFO
+      # VIGIORA_URL (the server's address) is not written here, because the author cannot know it.
+      # The server supplies it at install time.
+    volumes:
+      - hello-camera-data:/data    # the add-on keeps its token here
+      - ./secrets/enroll_key:/run/secrets/enroll_key:ro   # the server writes the enrolment key to this file
+    stop_grace_period: 20s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  hello-camera-data:

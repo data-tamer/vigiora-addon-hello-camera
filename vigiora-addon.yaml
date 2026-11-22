@@ -1,0 +1,74 @@
+# The manifest of a Vigiora add-on (format version 1).
+# The Vigiora cloud reads this file when you submit the repository, and shows most of it on your add-on's page.
+# Check it any time with:  vigiora-addon validate .
+# An unknown key anywhere is an error, so a typo cannot pass silently.
+
+manifest: 1                       # the format version; always 1 for now
+
+# ---- Identity -------------------------------------------------------------------------------------------
+id: hello-camera                   # 3 to 40 characters: a-z, 0-9, hyphen, starting with a letter. Never changes.
+                                  # Not allowed: objects, plates, faces, vision, core-ai, guardian, vigiora,
+                                  # or a name starting with vigiora-, hal-, official-
+name: Hello Camera                # 3 to 60 characters
+summary: Posts a harmless hello result for every camera assigned to it.   # 10 to 120 characters, one line
+version: 0.1.0                    # semantic version. It must be higher than your last approved version.
+author:
+  name: Vigiora
+  url: https://vigiora.com
+licence: Apache-2.0               # an SPDX id (MIT, Apache-2.0, GPL-3.0-only...) or Proprietary
+homepage: https://github.com/data-tamer/vigiora-addon-hello-camera
+categories: [other]               # 1 to 3 of: vision, audio, sensors, automation, analytics, integration, other
+languages: [en]                   # languages of the README and the how-to
+
+# ---- Compatibility --------------------------------------------------------------------------------------
+vigiora:
+  min_version: 1.7.0              # the lowest Vigiora Server version it works with
+  addon_api: 1                    # the add-on API version; 1 is today's protocol
+
+# ---- Hardware: what the server checks before it installs. Every field is optional. -----------------------
+hardware:
+  arch: [amd64, arm64]            # amd64, arm64
+  os: [linux]                     # linux, macos, windows
+  cpu_min_cores: 1
+  ram_min_gb: 0.25
+  disk_min_gb: 0.1
+  # gpu:                          # no GPU needed here. For a GPU add-on:
+  #   required: true
+  #   vendor: [nvidia]            # nvidia, amd, intel, apple
+  #   min_vram_gb: 6
+  devices: []                     # usb, zigbee, bluetooth, serial, microphone, speaker
+  notes: Needs nothing special. It runs on a Raspberry Pi 4.   # at most 300 characters
+
+# ---- How it runs ----------------------------------------------------------------------------------------
+run:
+  kind: compose                   # the only kind today
+  compose: compose.yaml           # path in this repository
+  source: build                   # build: the server builds the image from this commit (see the Dockerfile)
+                                  # image: the server pulls an image you published. Then list every image below.
+  # images:                       # only for source: image. Every image the compose file uses, pinned by digest:
+  #   - docker.io/you/hello-camera@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+  privileged: false               # true is flagged to the reviewer. Keep it false unless you really need it.
+  network: outbound               # none, outbound or host. host is flagged to the reviewer.
+  ports: []                       # inbound ports it listens on, if any. This add-on listens on none.
+
+# ---- Permissions: ask for the least you need. The administrator sees this list before turning it on. -----
+permissions:
+  scopes: [cameras:read, events:write]
+  # all of them: cameras:read, streams:read, events:write, alerts:write, recordings:read, faces:read,
+  #              iot:read, iot:write
+
+# ---- Price ----------------------------------------------------------------------------------------------
+price:
+  model: free                     # free, per_camera_month, per_server_month, one_off
+  amount_usd: 0                   # 0.50 to 500 when it is not free
+
+# ---- Reserved for later phases. They are checked for shape now and not acted on yet. -----------------------
+events:                           # the server events this add-on wants. Today the kit polls for the first two.
+  - addon.assignment_changed
+  - addon.config_updated
+settings:                         # settings Vigiora will draw for the add-on (per server, per camera)
+  server: []
+  camera: []
+ui:                               # pages and panels the add-on adds to Vigiora
+  views: []
+labels: []                        # result namespaces it emits, such as ["plate:"]. This add-on posts the plain label hello.

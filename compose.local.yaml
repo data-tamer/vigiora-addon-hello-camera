@@ -1,0 +1,10 @@
+# For trying the add-on on your own machine with Docker. The Vigiora cloud does not read this file.
+#   mkdir -p secrets && printf 'your-enrol-key' > secrets/enroll_key
+#   docker compose -f compose.yaml -f compose.local.yaml up --build
+# Change the address to your server's (a name or an IP the container can reach).
+services:
+  hello-camera:
+    environment:
+      VIGIORA_URL: http://host.docker.internal:8080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hello-camera"
+version = "0.1.0"
+description = "A tiny Vigiora add-on: posts a hello result for every camera assigned to it."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+# The kit is not on a package index yet. Install it first (see README.md, "Test it locally").
+dependencies = ["vigiora-addon-kit>=0.1.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+hello-camera = "hello_camera.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:cacheprovider"
