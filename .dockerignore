@@ -8,3 +8,4 @@ secrets
 compose*.yaml
 __pycache__
 *.egg-info
+data

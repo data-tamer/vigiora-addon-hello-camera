@@ -6,7 +6,7 @@ FROM python:3.12-slim-bookworm
 
 # Where the kit comes from while it has no package index entry. Change it if you use your own copy of the
 # vigiora-addon-kit repository (and use a release tag, not a branch) before you build or submit.
-ARG KIT_SOURCE=https://github.com/data-tamer/vigiora-addon-kit/archive/refs/tags/v0.1.0.tar.gz
+ARG KIT_SOURCE=https://github.com/data-tamer/vigiora-addon-kit/archive/refs/tags/v0.2.0.tar.gz
 
 RUN useradd --system --uid 10001 addon && mkdir /data && chown addon /data
 WORKDIR /app
