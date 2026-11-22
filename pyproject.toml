@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hello-camera"
-version = "0.1.0"
+version = "0.1.1"
 description = "A tiny Vigiora add-on: posts a hello result for every camera assigned to it."
 readme = "README.md"
 requires-python = ">=3.10"

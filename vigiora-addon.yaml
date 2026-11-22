@@ -11,7 +11,7 @@ id: hello-camera                   # 3 to 40 characters: a-z, 0-9, hyphen, start
                                   # or a name starting with vigiora-, hal-, official-
 name: Hello Camera                # 3 to 60 characters
 summary: Posts a harmless hello result for every camera assigned to it.   # 10 to 120 characters, one line
-version: 0.1.0                    # semantic version. It must be higher than your last approved version.
+version: 0.1.1                    # semantic version. It must be higher than your last approved version.
 author:
   name: Vigiora
   url: https://vigiora.com
